@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+
+### Code Box ###
+    homestead:
+        image: majuansari/dockerstead_centos:scex
+        working_dir: /var/www/html/ascent
+        ports:
+            - "8000:80" # web
+            - "2223:22" # ssh
+        volumes:
+            - ../ascent:/var/www/html/ascent #configure your project director path here
+        # env_file: .env
+        restart: always
+
+    mysql:
+        image: majuansari/mysql57_centos
+        volumes_from:
+            - volumes_data
+        ports:
+            - "3306:3306"
+        env_file: .env
+        restart: always
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+         - PMA_ARBITRARY=1
+        restart: always
+        ports:
+         - 8001:80
+         - 8005:443
+        volumes:
+         - /sessions
+    ### Mailcatcher ###
+
+    mailcatcher:
+        image: tophfr/mailcatcher
+        restart: always
+        ports:
+            - 8003:80
+###  Data source ###
+
+    volumes_data:
+        image: tianon/true
+        volumes:
+            - ./data/mysql:/var/lib/mysql/data
