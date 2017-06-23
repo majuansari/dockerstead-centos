@@ -1,2 +1,1 @@
 # dockerstead-centos
-# dockerstead-centos
