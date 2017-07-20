@@ -10,14 +10,13 @@ services:
             - "8000:80" # web
             - "2223:22" # ssh
         volumes:
-            - ../:/var/www/html/ #configure your project directory path here that contains ascent internal and user app
+            - ../ascent_internal:/var/www/html/ascent_internal
+            - ../ascent:/var/www/html/ascent
         # env_file: .env
         restart: always
 
     mysql:
         image: majuansari/mysql57_centos
-        volumes_from:
-            - volumes_data
         ports:
             - "3306:3306"
         env_file: .env
